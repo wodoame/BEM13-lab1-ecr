@@ -1,0 +1,251 @@
+<mxfile host="app.diagrams.net" agent="Cursor">
+  <diagram id="bem13-lab1-ecr-architecture" name="BEM13 Lab 1 - ECR CI/CD">
+    <mxGraphModel dx="968" dy="658" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#232F3E;" value="BEM13 Lab 1 — Container Image Pipeline to Amazon ECR" vertex="1">
+          <mxGeometry height="40" width="960" x="320" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="developer" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.user;" value="" vertex="1">
+          <mxGeometry height="78" width="78" x="80" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="aws-boundary" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=14;fontStyle=1;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#879196;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=1;" value="AWS Account" vertex="1">
+          <mxGeometry height="820" width="1020" x="520" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="infra-label" parent="aws-boundary" style="text;html=1;strokeColor=none;fillColor=#E8F4FC;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#232F3E;rounded=1;spacingLeft=8;" value="Infrastructure provisioning (GitSync)" vertex="1">
+          <mxGeometry height="30" width="320" x="30" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cicd-label" parent="aws-boundary" style="text;html=1;strokeColor=none;fillColor=#FFF4E5;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#232F3E;rounded=1;spacingLeft=8;" value="CI/CD image build and push (GitHub Actions + OIDC)" vertex="1">
+          <mxGeometry height="30" width="380" x="30" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="cfn-gitsync" parent="aws-boundary" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#759C3E;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudformation;" value="" vertex="1">
+          <mxGeometry height="72" width="72" x="80" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="cfn-stack" parent="aws-boundary" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#759C3E;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudformation;" value="" vertex="1">
+          <mxGeometry height="72" width="72" x="220" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="oidc-provider" parent="aws-boundary" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=#ffffff;dashed=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=2;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iam_identity_center;" value="" vertex="1">
+          <mxGeometry height="72" width="72" x="560" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-image" parent="aws-boundary" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecr_image;" value="" vertex="1">
+          <mxGeometry height="72" width="72" x="880" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="security-note" parent="aws-boundary" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;align=left;spacingLeft=6;fontStyle=1" value="No long-lived AWS keys in GitHub&#xa;OIDC → sts:AssumeRoleWithWebIdentity&#xa;Least-privilege ECR push IAM policy" vertex="1">
+          <mxGeometry height="70" width="260" x="560" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="e-gitsync-stack" edge="1" parent="aws-boundary" source="cfn-gitsync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#759C3E;strokeWidth=2;endArrow=block;endFill=1;" target="cfn-stack">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-gitsync-stack-label" connectable="0" parent="e-gitsync-stack" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" value="provision / update" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="4" y="-61" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-stack-ecr" edge="1" parent="aws-boundary" source="cfn-stack" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#759C3E;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="256" y="60" />
+              <mxPoint x="919" y="60" />
+            </Array>
+            <mxPoint x="919.0909090909086" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-stack-ecr-label" connectable="0" parent="e-stack-ecr" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1" value="creates" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-37" y="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-stack-role" edge="1" parent="aws-boundary" source="cfn-stack" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#759C3E;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="256" y="200" />
+              <mxPoint x="756" y="200" />
+            </Array>
+            <mxPoint x="756" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-stack-role-label" connectable="0" parent="e-stack-role" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1" value="creates" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-42" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-oidc-role" edge="1" parent="aws-boundary" source="oidc-provider" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DD344C;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="720" y="535.9999999999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-oidc-role-label" connectable="0" parent="e-oidc-role" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#DD344C;fontStyle=1" value="AssumeRoleWithWebIdentity" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="4" y="-56" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-role-ecr" edge="1" parent="aws-boundary" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ED7100;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="792" y="536.0000000000002" as="sourcePoint" />
+            <mxPoint x="919.0909090909086" y="398" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-role-ecr-label" connectable="0" parent="e-role-ecr" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#ED7100;fontStyle=1" value="ecr:GetAuthorizationToken&#xa;ecr:PutImage (push)" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="81" y="-50" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-docker-ecr" edge="1" parent="aws-boundary" source="docker-image" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ED7100;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="919.0909090909086" y="398" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-docker-ecr-label" connectable="0" parent="e-docker-ecr" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" value="stored in" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QO7NOFzgaWH2aC_4Sgyg-1" parent="aws-boundary" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecr;" value="" vertex="1">
+          <mxGeometry height="78" width="78" x="880" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="QO7NOFzgaWH2aC_4Sgyg-11" parent="aws-boundary" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.role;" value="" vertex="1">
+          <mxGeometry height="44" width="78" x="710" y="514" as="geometry" />
+        </mxCell>
+        <mxCell id="github-actions" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2088FF;strokeColor=#0969DA;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" value="GitHub Actions&#xa;workflow&#xa;(ubuntu-latest)" vertex="1">
+          <mxGeometry height="70" width="140" x="380" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="workflow-steps" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#FFF9E6;strokeColor=#D6B656;fontSize=10;align=left;spacingLeft=6;" value="1. checkout&#xa;2. mvn test&#xa;3. OIDC → AWS creds&#xa;4. ecr-login&#xa;5. docker build &amp; push" vertex="1">
+          <mxGeometry height="90" width="160" x="270" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="app-note" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#E8F4FC;strokeColor=#6C8EBF;fontSize=10;align=left;spacingLeft=6;" value="Spring Boot app&#xa;Dockerfile (multi-stage)&#xa;.dockerignore" vertex="1">
+          <mxGeometry height="70" width="140" x="560" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="e-dev-infra" edge="1" parent="1" source="developer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2088FF;strokeWidth=2;endArrow=block;endFill=1;" target="QO7NOFzgaWH2aC_4Sgyg-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="284.9999999999998" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-dev-infra-label" connectable="0" parent="e-dev-infra" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1" value="git push" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="1" as="geometry">
+            <mxPoint x="-29" y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QO7NOFzgaWH2aC_4Sgyg-4" connectable="0" parent="e-dev-infra" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1" value="IAC Repo" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="1" as="geometry">
+            <mxPoint x="-38" y="-118" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QO7NOFzgaWH2aC_4Sgyg-10" connectable="0" parent="e-dev-infra" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1" value="App Repo" vertex="1">
+          <mxGeometry relative="1" x="-0.1" y="1" as="geometry">
+            <mxPoint x="-48" y="202" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-dev-app" edge="1" parent="1" source="developer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2088FF;strokeWidth=2;endArrow=block;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="284.9999999999998" y="500.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-app-actions" edge="1" parent="1" source="QO7NOFzgaWH2aC_4Sgyg-6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2088FF;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="github-actions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="545" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-app-actions-label" connectable="0" parent="e-app-actions" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1" value="on push to main" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="6" y="-60" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-actions-oidc" edge="1" parent="1" source="github-actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DD344C;strokeWidth=2;endArrow=block;endFill=1;" target="oidc-provider">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-actions-oidc-label" connectable="0" parent="e-actions-oidc" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#DD344C;fontStyle=1" value="OIDC id-token&#xa;(id-token: write)" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-actions-docker" edge="1" parent="1" source="github-actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2088FF;strokeWidth=2;endArrow=block;endFill=1;dashed=1;" target="docker-image">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="700" />
+              <mxPoint x="1400" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-actions-docker-label" connectable="0" parent="e-actions-docker" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#2088FF;" value="docker build &amp; push&#xa;(via ECR registry login)" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#CCCCCC;" value="" vertex="1">
+          <mxGeometry height="120" width="400" x="80" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=12;fontStyle=1;" value="Legend" vertex="1">
+          <mxGeometry height="20" width="80" x="95" y="728" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-green" edge="1" parent="1" style="endArrow=block;html=1;strokeColor=#759C3E;strokeWidth=2;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="95" y="760" as="sourcePoint" />
+            <mxPoint x="145" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-green-t" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" value="Infrastructure (CloudFormation GitSync)" vertex="1">
+          <mxGeometry height="20" width="220" x="155" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-blue" edge="1" parent="1" style="endArrow=block;html=1;strokeColor=#2088FF;strokeWidth=2;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="95" y="785" as="sourcePoint" />
+            <mxPoint x="145" y="785" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-blue-t" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" value="CI/CD pipeline (GitHub Actions)" vertex="1">
+          <mxGeometry height="20" width="200" x="155" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-red" edge="1" parent="1" style="endArrow=block;html=1;strokeColor=#DD344C;strokeWidth=2;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="95" y="810" as="sourcePoint" />
+            <mxPoint x="145" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-red-t" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" value="OIDC authentication (no AWS access keys)" vertex="1">
+          <mxGeometry height="20" width="240" x="155" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-orange" edge="1" parent="1" style="endArrow=block;html=1;strokeColor=#ED7100;strokeWidth=2;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="300" y="760" as="sourcePoint" />
+            <mxPoint x="350" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-orange-t" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" value="ECR image storage" vertex="1">
+          <mxGeometry height="20" width="120" x="360" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="QO7NOFzgaWH2aC_4Sgyg-5" parent="1" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.git_repository;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="260" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="QO7NOFzgaWH2aC_4Sgyg-6" parent="1" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.git_repository;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="260" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="e-infra-gitsync" edge="1" parent="1" source="cfn-gitsync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#759C3E;strokeWidth=2;endArrow=block;endFill=1;dashed=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="QO7NOFzgaWH2aC_4Sgyg-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="194.9999999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-infra-gitsync-label" connectable="0" parent="e-infra-gitsync" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" value="deployment-file.yaml" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint x="-80" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="developer-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;fontColor=#232F3E;" value="Developer" vertex="1">
+          <mxGeometry height="20" width="160" x="39" y="362" as="geometry" />
+        </mxCell>
+        <mxCell id="cfn-gitsync-label" parent="aws-boundary" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#232F3E;whiteSpace=wrap;" value="CloudFormation&#xa;GitSync" vertex="1">
+          <mxGeometry height="32" width="160" x="36" y="176" as="geometry" />
+        </mxCell>
+        <mxCell id="cfn-stack-label" parent="aws-boundary" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#232F3E;whiteSpace=wrap;" value="CloudFormation&#xa;Stack" vertex="1">
+          <mxGeometry height="32" width="160" x="176" y="176" as="geometry" />
+        </mxCell>
+        <mxCell id="oidc-provider-label" parent="aws-boundary" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#232F3E;whiteSpace=wrap;" value="IAM OIDC Provider&#xa;(GitHub)&#xa;token.actions.githubusercontent.com&#xa;[pre-existing]" vertex="1">
+          <mxGeometry height="60" width="240" x="476" y="576" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-image-label" parent="aws-boundary" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontColor=#232F3E;whiteSpace=wrap;" value="Container image&#xa;bernardmawulormkofiwodoame_ecr" vertex="1">
+          <mxGeometry height="32" width="220" x="806" y="576" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
